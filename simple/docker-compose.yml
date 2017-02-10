@@ -6,7 +6,7 @@ services:
         - db.env
     environment:
         - BUILDBOT_CONFIG_DIR=config
-        - BUILDBOT_CONFIG_URL=https://github.com/buildbot/buildbot-docker-example-config/archive/master.tar.gz
+        - BUILDBOT_CONFIG_URL=https://github.com/nicolai86/buildbot-docker-example-config/archive/master.tar.gz
         - BUILDBOT_WORKER_PORT=9989
         - BUILDBOT_WEB_URL=http://localhost:8080/
         - BUILDBOT_WEB_PORT=8080
@@ -29,6 +29,18 @@ services:
         BUILDMASTER: buildbot
         BUILDMASTER_PORT: 9989
         WORKERNAME: example-worker
+        WORKERPASS: pass
+        WORKER_ENVIRONMENT_BLACKLIST: DOCKER_BUILDBOT* BUILDBOT_ENV_* BUILDBOT_1* WORKER_ENVIRONMENT_BLACKLIST
+
+    links:
+        - buildbot
+
+  worker_node:
+    image: "nicolai86/buildbot-worker:node"
+    environment:
+        BUILDMASTER: buildbot
+        BUILDMASTER_PORT: 9989
+        WORKERNAME: node-worker
         WORKERPASS: pass
         WORKER_ENVIRONMENT_BLACKLIST: DOCKER_BUILDBOT* BUILDBOT_ENV_* BUILDBOT_1* WORKER_ENVIRONMENT_BLACKLIST
 
