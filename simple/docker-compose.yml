@@ -1,15 +1,17 @@
-version: '2'
+version: '3'
 services:
   buildbot:
+    build:
+      context: ../master
     image: nicolai86/buildbot-master:docker
     env_file:
         - db.env
     environment:
         - BUILDBOT_CONFIG_DIR=config
-        - BUILDBOT_CONFIG_URL=https://github.com/nicolai86/buildbot-docker-example-config/archive/master.tar.gz
         - BUILDBOT_WORKER_PORT=9989
         - BUILDBOT_WEB_URL=http://localhost:8080/
         - BUILDBOT_WEB_PORT=8080
+        # - BUILDBOT_CONFIG_URL=https://github.com/nicolai86/buildbot-docker-example-config/archive/master.tar.gz
     links:
       - db
     depends_on:
@@ -17,6 +19,8 @@ services:
     ports:
       - "8080:8080"
       - "9989:9989"
+    volumes:
+      - ../master.cfg:/var/lib/buildbot/master.cfg:ro
 
   db:
     env_file:

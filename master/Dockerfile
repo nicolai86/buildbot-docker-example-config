@@ -1,3 +1,3 @@
 FROM buildbot/buildbot-master:master
 
-RUN pip install docker-py
+RUN pip install docker-py txrequests
